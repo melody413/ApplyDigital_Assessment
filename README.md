@@ -88,8 +88,3 @@ JWT_SECRET=your_jwt_secret
 - **Public Endpoints:** `/products` (pagination, filtering)
 - **Private Endpoints:** `/reports` (JWT required)
 - **Auth:** JWT-based authentication for protected routes
-
-## Contributing
-
-- Use [Conventional Commits](https://www.conventionalcommits.org/)
-- Follow [gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) workflow
