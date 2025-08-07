@@ -6,14 +6,12 @@ import { ProductFilterDto } from './dto/product-filter.dto';
 
 @Injectable()
 export class ProductsService {
-  findAll(filterDto: ProductFilterDto) {
-    throw new Error('Method not implemented.');
-  }
+
   constructor(
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
 
-  async findAllPaginatedAndFiltered(
+  async findAll(
     filterDto: ProductFilterDto,
     page = 1,
     limit = 5,
