@@ -1,33 +1,59 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Product, ProductDocument } from './models/product.schema';
 import { ProductFilterDto } from './dto/product-filter.dto';
 
 @Injectable()
 export class ProductsService {
-  constructor() {}
-
-  async create(createProductDto: CreateProductDto): Promise<any> {
-    // TODO: Implement create logic
-    return {};
+  findAll(filterDto: ProductFilterDto) {
+    throw new Error('Method not implemented.');
   }
+  constructor(
+    @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+  ) {}
 
-  async findAll(filterDto: ProductFilterDto): Promise<{ data: any[]; total: number }> {
-    // TODO: Implement findAll logic
-    return { data: [], total: 0 };
-  }
+  async findAllPaginatedAndFiltered(
+    filterDto: ProductFilterDto,
+    page = 1,
+    limit = 5,
+  ) {
+    const query: any = {};
 
-  async findOne(id: string): Promise<any> {
-    // TODO: Implement findOne logic
-    throw new NotFoundException('Product not found');
-  }
+    // Filtering by name (case-insensitive)
+    if (filterDto.name) {
+      query.name = { $regex: filterDto.name, $options: 'i' };
+    }
 
-  async update(id: string, updateProductDto: CreateProductDto): Promise<any> {
-    // TODO: Implement update logic
-    throw new NotFoundException('Product not found');
-  }
+    // Filtering by category
+    if (filterDto.category) {
+      query.category = filterDto.category;
+    }
 
-  async remove(id: string): Promise<any> {
-    // TODO: Implement remove logic
-    throw new NotFoundException('Product not found');
+    // Filtering by price range
+    if (filterDto.minPrice !== undefined || filterDto.maxPrice !== undefined) {
+      query.price = {};
+      if (filterDto.minPrice !== undefined) {
+        query.price.$gte = filterDto.minPrice;
+      }
+      if (filterDto.maxPrice !== undefined) {
+        query.price.$lte = filterDto.maxPrice;
+      }
+    }
+
+    const skip = (page - 1) * limit;
+
+    const [items, total] = await Promise.all([
+      this.productModel.find(query).skip(skip).limit(limit).exec(),
+      this.productModel.countDocuments(query),
+    ]);
+
+    return {
+      items,
+      total,
+      page,
+      pageSize: limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 }

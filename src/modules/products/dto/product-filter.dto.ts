@@ -17,13 +17,23 @@ export class ProductFilterDto {
   @IsNumber()
   price?: number;
 
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsNumber()
+  minPrice?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsNumber()
+  maxPrice?: number;
+
   @ApiPropertyOptional({ default: 1 })
   @IsOptional()
   @IsNumber()
   page?: number = 1;
 
-  @ApiPropertyOptional({ default: 10 })
+  @ApiPropertyOptional({ default: 5 })
   @IsOptional()
   @IsNumber()
-  limit?: number = 10;
+  limit?: number = 5;
 }

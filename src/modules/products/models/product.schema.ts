@@ -46,4 +46,6 @@ export class Product extends Document {
   metadata: any;
 }
 
+export type ProductDocument = Product & Document;
+
 export const ProductSchema = SchemaFactory.createForClass(Product);
