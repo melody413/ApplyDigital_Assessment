@@ -11,7 +11,7 @@ import { ProductsModule } from './modules/products/products.module';
     ConfigModule.forRoot({ isGlobal: true }),
     ScheduleModule.forRoot(),
     AuthModule,
-    ProductsModule, // <-- Import ProductsModule to enable ProductSyncService
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
