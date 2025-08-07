@@ -21,7 +21,7 @@ export class AppController {
   @ApiOperation({ summary: 'Manually trigger Contentful product sync' })
   @ApiResponse({ status: 202, description: 'Product sync started' })
   async triggerProductSync() {
-    this.productSyncService.syncProductsFromContentful();
+    await this.productSyncService.syncProductsFromContentful();
     return { message: 'Product sync started' };
   }
 }

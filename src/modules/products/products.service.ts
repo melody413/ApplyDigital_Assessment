@@ -11,7 +11,7 @@ export class ProductsService {
   ) {}
 
   async findAll(filterDto: ProductFilterDto, page = 1, limit = 5) {
-    const query: any = { deleted: { $ne: true } };
+    const query: Record<string, unknown> = { deleted: { $ne: true } };
 
     // Filtering by name (case-insensitive)
     if (filterDto.name) {
@@ -27,10 +27,10 @@ export class ProductsService {
     if (filterDto.minPrice !== undefined || filterDto.maxPrice !== undefined) {
       query.price = {};
       if (filterDto.minPrice !== undefined) {
-        query.price.$gte = filterDto.minPrice;
+        (query.price as Record<string, number>).$gte = filterDto.minPrice;
       }
       if (filterDto.maxPrice !== undefined) {
-        query.price.$lte = filterDto.maxPrice;
+        (query.price as Record<string, number>).$lte = filterDto.maxPrice;
       }
     }
 
@@ -51,7 +51,10 @@ export class ProductsService {
   }
 
   async remove(id: string) {
-    const product = await this.productModel.findOne({contentfulId: id, deleted: { $ne: true }});
+    const product = await this.productModel.findOne({
+      contentfulId: id,
+      deleted: { $ne: true },
+    });
     if (!product || product.deleted) {
       throw new NotFoundException('Product not found');
     }

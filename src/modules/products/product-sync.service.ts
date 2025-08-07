@@ -5,6 +5,35 @@ import { Model } from 'mongoose';
 import axios from 'axios';
 import { Product } from './models/product.schema';
 
+interface ContentfulSys {
+  id: string;
+  [key: string]: unknown; // Allow other properties
+}
+
+interface ContentfulFields {
+  sku: string;
+  name: string;
+  brand: string;
+  model: string;
+  category: string;
+  color: string;
+  price: number;
+  currency: string;
+  stock: number;
+  [key: string]: unknown; // Allow other properties
+}
+
+interface ContentfulItem {
+  sys: ContentfulSys;
+  fields: ContentfulFields;
+  metadata: unknown; // Adjust as needed
+}
+
+interface ContentfulResponse {
+  total: number;
+  items: ContentfulItem[];
+}
+
 @Injectable()
 export class ProductSyncService {
   private readonly logger = new Logger(ProductSyncService.name);
@@ -34,7 +63,7 @@ export class ProductSyncService {
       const url = `${this.contentfulUrl}/${this.contentful_space_id}/environments/${this.environment}/entries?access_token=${this.accessToken}&content_type=${this.contentType}&skip=${skip}&limit=${this.limit}`;
 
       try {
-        const response = await axios.get(url);
+        const response = await axios.get<ContentfulResponse>(url);
         const data = response.data;
         total = data.total;
         fetched += data.items.length;

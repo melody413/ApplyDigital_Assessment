@@ -21,7 +21,7 @@ export class ReportsService {
   }
 
   async getNonDeletedPercentage(withPrice?: boolean, dateRange?: DateRangeDto) {
-    const filter: any = { deleted: false || null };
+    const filter: Record<string, unknown> = { deleted: { $in: [false, null] } };
 
     if (withPrice !== undefined) {
       filter.price = withPrice ? { $ne: null } : null;
@@ -29,8 +29,14 @@ export class ReportsService {
 
     if (dateRange?.from || dateRange?.to) {
       filter.updatedAt = {};
-      if (dateRange.from) filter.updatedAt.$gte = new Date(dateRange.from);
-      if (dateRange.to) filter.updatedAt.$lte = new Date(dateRange.to);
+      if (dateRange.from)
+        (filter.updatedAt as Record<string, unknown>)['$gte'] = new Date(
+          dateRange.from,
+        );
+      if (dateRange.to)
+        (filter.updatedAt as Record<string, unknown>)['$lte'] = new Date(
+          dateRange.to,
+        );
     }
 
     const total = await this.productModel.countDocuments();
