@@ -11,10 +11,10 @@ export class ProductSyncService {
 
   // Ideally, move these to environment variables or config service
   private readonly contentfulUrl =
-    'https://cdn.contentful.com/spaces/9xs1613l9f7v/environments/master/entries';
-  private readonly accessToken = 'I-ThsT55eE_B3sCUWEQyDT4VqVO3x__20ufuie9usns';
-  private readonly contentType = 'product';
-  private readonly limit = 100;
+    process.env.CONTENTFUL_URL || 'https://cdn.contentful.com/spaces/9xs1613l9f7v/environments/master/entries';
+  private readonly accessToken = process.env.CONTENTFUL_ACCESS_TOKEN || '';
+  private readonly contentType = process.env.CONTENTFUL_CONTENT_TYPE || 'product';
+  private readonly limit = parseInt(process.env.CONTENTFUL_LIMIT || '100', 10);
 
   constructor(
     @InjectModel(Product.name) private readonly productModel: Model<Product>,
