@@ -51,7 +51,7 @@ export class ProductsService {
   }
 
   async remove(id: string) {
-    const product = await this.productModel.findById(id);
+    const product = await this.productModel.findOne({contentfulId: id, deleted: { $ne: true }});
     if (!product || product.deleted) {
       throw new NotFoundException('Product not found');
     }
