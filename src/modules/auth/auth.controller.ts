@@ -9,7 +9,7 @@ export class AuthController {
   constructor(private readonly jwtService: JwtService) {}
 
   @Post('login')
-  @ApiOperation({ summary: 'Login and get JWT token' })
+  @ApiOperation({ summary: 'Login and get JWT token with mock-up' })
   @ApiResponse({ status: 201, description: 'JWT token returned.' })
   async login(@Body() body: LoginDto) {
     const payload = { username: body.username, sub: 1 };

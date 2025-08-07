@@ -2,7 +2,6 @@ import { Controller, Get, Query, UsePipes, ValidationPipe, Delete, Param } from 
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { ProductFilterDto } from './dto/product-filter.dto';
-
 @ApiTags('Public-Products')
 @Controller('products')
 export class ProductsController {
