@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 
-@ApiTags('auth')
+@ApiTags('Public-Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly jwtService: JwtService) {}

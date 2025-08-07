@@ -4,7 +4,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { DateRangeDto } from './dto/data-range.dto';
 
-@ApiTags('reports')
+@ApiTags('Private-reports')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('reports')
@@ -25,5 +25,10 @@ export class ReportsController {
     @Query() dateRange?: DateRangeDto,
   ) {
     return this.reportsService.getNonDeletedPercentage(withPrice, dateRange);
+  }
+
+  @Get('products-by-category')
+  async getProductsByCategory() {
+    return this.reportsService.getProductsByCategory();
   }
 }

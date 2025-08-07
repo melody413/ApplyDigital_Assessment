@@ -62,4 +62,11 @@ export class ReportsService {
       totalCount: deleted.totalCount,
     };
   }
+
+  async getProductsByCategory() {
+    return this.productModel.aggregate([
+      { $group: { _id: '$category', count: { $sum: 1 } } },
+      { $project: { category: '$_id', count: 1, _id: 0 } },
+    ]);
+  }
 }
