@@ -26,9 +26,4 @@ export class ReportsController {
   ) {
     return this.reportsService.getNonDeletedPercentage(withPrice, dateRange);
   }
-
-  @Get('recent-products')
-  async getRecentProducts() {
-    return this.reportsService.getRecentProducts();
-  }
 }

@@ -11,7 +11,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # Ensure dependencies are installed before starting
     command: sh -c "npm install && npm run start:dev"
     ports:
       - 3000:3000
@@ -19,15 +18,6 @@ services:
       - MONGODB_URI=mongodb://mongo:27017/products
     depends_on:
       - mongo
-    # For development with live reload, uncomment below and use 'npm run start:dev' in command
-    # volumes:
-    #   - .:/usr/src/app
-    #   - /usr/src/app/node_modules
-    #   - /usr/src/app/dist
-    # environment:
-    #   - MONGODB_URI=mongodb://mongo:27017/products
-    #   - NODE_ENV=development
-    # command: sh -c "npm install && npm run start:dev"
 
 volumes:
   mongo_data:

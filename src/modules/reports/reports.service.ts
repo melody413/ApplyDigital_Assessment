@@ -15,34 +15,51 @@ export class ReportsService {
     const deleted = await this.productModel.countDocuments({ deleted: true });
     return {
       deletedPercentage: total ? (deleted / total) * 100 : 0,
+      deletedCount: deleted,
+      totalCount: total,
     };
   }
 
   async getNonDeletedPercentage(withPrice?: boolean, dateRange?: DateRangeDto) {
-    const filter: any = { deleted: false };
+    const filter: any = { deleted: false || null };
+
     if (withPrice !== undefined) {
       filter.price = withPrice ? { $ne: null } : null;
     }
+
     if (dateRange?.from || dateRange?.to) {
       filter.updatedAt = {};
       if (dateRange.from) filter.updatedAt.$gte = new Date(dateRange.from);
       if (dateRange.to) filter.updatedAt.$lte = new Date(dateRange.to);
     }
-    const total = await this.productModel.countDocuments({ deleted: false });
+
+    const total = await this.productModel.countDocuments();
     const filtered = await this.productModel.countDocuments(filter);
+
     return {
       nonDeletedPercentage: total ? (filtered / total) * 100 : 0,
       count: filtered,
+      totalCount: total,
     };
   }
 
-  async getRecentProducts() {
-    // Example custom report: 5 most recently updated non-deleted products
-    const products = await this.productModel
-      .find({ deleted: false })
-      .sort({ updatedAt: -1 })
-      .limit(5)
-      .lean();
-    return { recentProducts: products };
+  async getNonDeletedWithoutPricePercentage(dateRange?: DateRangeDto) {
+    return this.getNonDeletedPercentage(false, dateRange);
+  }
+
+  async getSummaryReport(withPrice?: boolean, dateRange?: DateRangeDto) {
+    const deleted = await this.getDeletedPercentage();
+    const nonDeleted = await this.getNonDeletedPercentage(withPrice, dateRange);
+    const nonDeletedWithoutPrice = await this.getNonDeletedWithoutPricePercentage(dateRange);
+
+    return {
+      deletedPercentage: deleted.deletedPercentage,
+      deletedCount: deleted.deletedCount,
+      nonDeletedPercentage: nonDeleted.nonDeletedPercentage,
+      nonDeletedCount: nonDeleted.count,
+      nonDeletedWithoutPricePercentage: nonDeletedWithoutPrice.nonDeletedPercentage,
+      nonDeletedWithoutPriceCount: nonDeletedWithoutPrice.count,
+      totalCount: deleted.totalCount,
+    };
   }
 }
