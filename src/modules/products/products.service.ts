@@ -16,7 +16,7 @@ export class ProductsService {
     page = 1,
     limit = 5,
   ) {
-    const query: any = {};
+    const query: any = { deleted: { $ne: true } };
 
     // Filtering by name (case-insensitive)
     if (filterDto.name) {
@@ -53,5 +53,15 @@ export class ProductsService {
       pageSize: limit,
       totalPages: Math.ceil(total / limit),
     };
+  }
+
+  async remove(id: string) {
+    const product = await this.productModel.findById(id);
+    if (!product || product.deleted) {
+      throw new NotFoundException('Product not found');
+    }
+    product.deleted = true;
+    await product.save();
+    return { message: 'Product removed successfully' };
   }
 }

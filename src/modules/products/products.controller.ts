@@ -1,5 +1,5 @@
-import { Controller, Get, Query, UsePipes, ValidationPipe } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import { Controller, Get, Query, UsePipes, ValidationPipe, Delete, Param } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { ProductFilterDto } from './dto/product-filter.dto';
 
@@ -20,5 +20,14 @@ export class ProductsController {
     @Query() filterDto: ProductFilterDto,
   ) {
     return this.productsService.findAll(filterDto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Soft delete a product by ID' })
+  @ApiParam({ name: 'id', type: String, description: 'Product ID' })
+  @ApiResponse({ status: 200, description: 'Product removed successfully.' })
+  @ApiResponse({ status: 404, description: 'Product not found.' })
+  async remove(@Param('id') id: string) {
+    return this.productsService.remove(id);
   }
 }

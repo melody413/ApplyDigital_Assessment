@@ -44,6 +44,9 @@ export class Product extends Document {
 
   @Prop({ type: Object })
   metadata: any;
+
+  @Prop({ default: false })
+  deleted: boolean;
 }
 
 export type ProductDocument = Product & Document;

@@ -20,7 +20,7 @@ export class ProductSyncService {
     @InjectModel(Product.name) private readonly productModel: Model<Product>,
   ) {}
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_HOUR)
   async syncProductsFromContentful() {
     this.logger.log('Starting scheduled Contentful product sync...');
     let skip = 0;
