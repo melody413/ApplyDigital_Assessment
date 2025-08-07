@@ -11,8 +11,10 @@ export class ProductSyncService {
 
   // Ideally, move these to environment variables or config service
   private readonly contentfulUrl =
-    process.env.CONTENTFUL_URL || 'https://cdn.contentful.com/spaces/9xs1613l9f7v/environments/master/entries';
+    process.env.CONTENTFUL_URL || 'https://cdn.contentful.com/spaces';
+  private readonly contentful_space_id = process.env.CONTENTFUL_SPACE_ID || '9xs1613l9f7v';
   private readonly accessToken = process.env.CONTENTFUL_ACCESS_TOKEN || '';
+  private readonly environment = process.env.CONTENTFUL_ENVIRONMENT || 'master';
   private readonly contentType = process.env.CONTENTFUL_CONTENT_TYPE || 'product';
   private readonly limit = parseInt(process.env.CONTENTFUL_LIMIT || '100', 10);
 
@@ -27,7 +29,8 @@ export class ProductSyncService {
     let total = 0;
     let fetched = 0;
     do {
-      const url = `${this.contentfulUrl}?access_token=${this.accessToken}&content_type=${this.contentType}&skip=${skip}&limit=${this.limit}`;
+      const url = `${this.contentfulUrl}/${this.contentful_space_id}/environments/${this.environment}/entries?access_token=${this.accessToken}&content_type=${this.contentType}&skip=${skip}&limit=${this.limit}`;
+
       try {
         const response = await axios.get(url);
         const data = response.data;
