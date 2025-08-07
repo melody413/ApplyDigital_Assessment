@@ -1,5 +1,19 @@
-import { Controller, Get, Query, UsePipes, ValidationPipe, Delete, Param } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Query,
+  UsePipes,
+  ValidationPipe,
+  Delete,
+  Param,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiQuery,
+  ApiParam,
+} from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { ProductFilterDto } from './dto/product-filter.dto';
 @ApiTags('Public-Products')
@@ -9,15 +23,36 @@ export class ProductsController {
 
   @Get()
   @ApiOperation({ summary: 'Get paginated and filterable list of products' })
-  @ApiQuery({ name: 'page', required: false, type: Number, description: 'Page number (default: 1)' })
-  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Items per page (default: 10)' })
-  @ApiQuery({ name: 'name', required: false, type: String, description: 'Filter by product name' })
-  @ApiQuery({ name: 'category', required: false, type: String, description: 'Filter by category' })
-  @ApiResponse({ status: 200, description: 'List of products returned successfully.' })
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Page number (default: 1)',
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Items per page (default: 10)',
+  })
+  @ApiQuery({
+    name: 'name',
+    required: false,
+    type: String,
+    description: 'Filter by product name',
+  })
+  @ApiQuery({
+    name: 'category',
+    required: false,
+    type: String,
+    description: 'Filter by category',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'List of products returned successfully.',
+  })
   @UsePipes(new ValidationPipe({ transform: true }))
-  async findAll(
-    @Query() filterDto: ProductFilterDto,
-  ) {
+  async findAll(@Query() filterDto: ProductFilterDto) {
     return this.productsService.findAll(filterDto);
   }
 

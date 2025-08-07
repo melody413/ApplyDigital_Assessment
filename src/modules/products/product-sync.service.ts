@@ -12,10 +12,12 @@ export class ProductSyncService {
   // Ideally, move these to environment variables or config service
   private readonly contentfulUrl =
     process.env.CONTENTFUL_URL || 'https://cdn.contentful.com/spaces';
-  private readonly contentful_space_id = process.env.CONTENTFUL_SPACE_ID || '9xs1613l9f7v';
+  private readonly contentful_space_id =
+    process.env.CONTENTFUL_SPACE_ID || '9xs1613l9f7v';
   private readonly accessToken = process.env.CONTENTFUL_ACCESS_TOKEN || '';
   private readonly environment = process.env.CONTENTFUL_ENVIRONMENT || 'master';
-  private readonly contentType = process.env.CONTENTFUL_CONTENT_TYPE || 'product';
+  private readonly contentType =
+    process.env.CONTENTFUL_CONTENT_TYPE || 'product';
   private readonly limit = parseInt(process.env.CONTENTFUL_LIMIT || '100', 10);
 
   constructor(
@@ -36,7 +38,9 @@ export class ProductSyncService {
         const data = response.data;
         total = data.total;
         fetched += data.items.length;
-        this.logger.log(`Fetched ${data.items.length} products (skip: ${skip})`);
+        this.logger.log(
+          `Fetched ${data.items.length} products (skip: ${skip})`,
+        );
         // Upsert each product
         for (const item of data.items) {
           const mapped = {

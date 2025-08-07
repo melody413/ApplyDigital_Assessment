@@ -50,14 +50,16 @@ export class ReportsService {
   async getSummaryReport(withPrice?: boolean, dateRange?: DateRangeDto) {
     const deleted = await this.getDeletedPercentage();
     const nonDeleted = await this.getNonDeletedPercentage(withPrice, dateRange);
-    const nonDeletedWithoutPrice = await this.getNonDeletedWithoutPricePercentage(dateRange);
+    const nonDeletedWithoutPrice =
+      await this.getNonDeletedWithoutPricePercentage(dateRange);
 
     return {
       deletedPercentage: deleted.deletedPercentage,
       deletedCount: deleted.deletedCount,
       nonDeletedPercentage: nonDeleted.nonDeletedPercentage,
       nonDeletedCount: nonDeleted.count,
-      nonDeletedWithoutPricePercentage: nonDeletedWithoutPrice.nonDeletedPercentage,
+      nonDeletedWithoutPricePercentage:
+        nonDeletedWithoutPrice.nonDeletedPercentage,
       nonDeletedWithoutPriceCount: nonDeletedWithoutPrice.count,
       totalCount: deleted.totalCount,
     };

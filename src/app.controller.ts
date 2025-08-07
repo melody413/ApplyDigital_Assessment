@@ -6,8 +6,10 @@ import { ProductSyncService } from './modules/products/product-sync.service';
 @ApiTags('Public-App')
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService, private readonly productSyncService: ProductSyncService,) {}
-
+  constructor(
+    private readonly appService: AppService,
+    private readonly productSyncService: ProductSyncService,
+  ) {}
 
   @Get()
   checkHealth(): string {
@@ -22,5 +24,4 @@ export class AppController {
     this.productSyncService.syncProductsFromContentful();
     return { message: 'Product sync started' };
   }
-  
 }

@@ -6,16 +6,11 @@ import { ProductFilterDto } from './dto/product-filter.dto';
 
 @Injectable()
 export class ProductsService {
-
   constructor(
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
 
-  async findAll(
-    filterDto: ProductFilterDto,
-    page = 1,
-    limit = 5,
-  ) {
+  async findAll(filterDto: ProductFilterDto, page = 1, limit = 5) {
     const query: any = { deleted: { $ne: true } };
 
     // Filtering by name (case-insensitive)

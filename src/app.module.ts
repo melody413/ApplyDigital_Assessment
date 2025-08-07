@@ -12,7 +12,9 @@ import { ReportsModule } from './modules/reports/reports.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ScheduleModule.forRoot(),
-    MongooseModule.forRoot(process.env.MONGODB_URI || 'mongodb://localhost:27017/products'),
+    MongooseModule.forRoot(
+      process.env.MONGODB_URI || 'mongodb://localhost:27017/products',
+    ),
     AuthModule,
     ProductsModule,
     ReportsModule, // Ensure ReportsModule is imported here
@@ -20,5 +22,4 @@ import { ReportsModule } from './modules/reports/reports.module';
   controllers: [AppController],
   providers: [AppService],
 })
-
 export class AppModule {}

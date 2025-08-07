@@ -18,7 +18,12 @@ export class ReportsController {
 
   @Get('non-deleted-percentage')
   @ApiQuery({ name: 'withPrice', required: false, type: Boolean })
-  @ApiQuery({ name: 'from', required: false, type: String, format: 'date-time' })
+  @ApiQuery({
+    name: 'from',
+    required: false,
+    type: String,
+    format: 'date-time',
+  })
   @ApiQuery({ name: 'to', required: false, type: String, format: 'date-time' })
   async getNonDeletedPercentage(
     @Query('withPrice') withPrice?: boolean,

@@ -4,13 +4,13 @@ import { Document } from 'mongoose';
 @Schema({ timestamps: true })
 export class Product extends Document {
   @Prop({ required: true, unique: true })
-  contentfulId: string; 
+  contentfulId: string;
 
   @Prop()
   createdAt: Date;
 
   @Prop()
-  updatedAt: Date; 
+  updatedAt: Date;
 
   @Prop()
   sku: string;
